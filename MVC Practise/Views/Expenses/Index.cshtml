@@ -1,49 +1,67 @@
 ﻿@model IEnumerable<FinanceApp.Models.Expense>
 
-<h2>My Expenses</h2>
-
-<div class="container mb-3">
-    <a asp-action="Create" class="btn btn-success">Add Expense</a>
+<div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+        <h1 class="h4 mb-0">My Expenses</h1>
+        <p class="text-muted small mb-0">A minimal overview of your recent expenses</p>
+    </div>
+    <div>
+        <a asp-action="Create" class="btn btn-success btn-sm shadow-sm">
+            <!-- simple + icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus me-1" viewBox="0 0 16 16">
+                <path d="M8 4a.5.5 0 0 1 .5.5V7.5H11.5a.5.5 0 0 1 0 1H8.5V11.5a.5.5 0 0 1-1 0V8.5H4.5a.5.5 0 0 1 0-1H7.5V4.5A.5.5 0 0 1 8 4z" />
+            </svg>
+            Add Expense
+        </a>
+    </div>
 </div>
 
-<div class="container">
-    <table class="table table-bordered">
-        <thead class="table-light">
-            <tr>
-                <th>Description</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Description</td>
-                    <td>@item.Amount.ToString("C")</td>
-                    <td>@item.Category</td>
-                    <td>@item.Date.ToShortDateString()</td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-primary">Edit</a>
-                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th class="fw-semibold">Description</th>
+                        <th class="fw-semibold">Amount</th>
+                        <th class="fw-semibold">Category</th>
+                        <th class="fw-semibold">Date</th>
+                        <th class="text-end fw-semibold">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-truncate" style="max-width:320px;">@item.Description</td>
+                            <td class="fw-medium">@item.Amount.ToString("C")</td>
+                            <td>
+                                <span class="badge bg-light text-dark border">@item.Category</span>
+                            </td>
+                            <td class="text-muted">@item.Date.ToShortDateString()</td>
+                            <td class="text-end">
+                                <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-outline-primary me-1">
+                                    Edit
+                                </a>
+                                <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-outline-danger">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
-<h2>Expenses Overview</h2>
+<h2 class="h5 mt-5 mb-3">Expenses Overview</h2>
 
-<div>
-    <canvas style="max-width: 450px; max-height: 450px;" id="myChart"></canvas>
+<div class="card border-0 shadow-sm p-3" style="max-width:540px;">
+    <canvas id="myChart" style="max-width: 420px; max-height: 420px;"></canvas>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
     const ctx = document.getElementById('myChart');
     fetch('/Expenses/GetChart')
@@ -55,8 +73,15 @@
                     labels: data.map(d => d.category),
                     datasets: [{
                         data: data.map(d => d.total),
+                        backgroundColor: [
+                            '#4f46e5', '#06b6d4', '#f59e0b', '#ef4444', '#10b981', '#6366f1'
+                        ],
+                        borderWidth: 0
                     }]
                 },
+                options: {
+                    plugins: { legend: { position: 'bottom' } }
+                }
             });
         });
 </script>

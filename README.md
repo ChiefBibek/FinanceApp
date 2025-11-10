@@ -107,9 +107,4 @@ Optional checks:
 
 ---
 
-## License & Code of Conduct
-- Add the repository license file (e.g., `LICENSE`) and a `CODE_OF_CONDUCT.md` if you plan to accept outside contributions.
-- Default to a permissive license (MIT) unless otherwise required.
-
----
 

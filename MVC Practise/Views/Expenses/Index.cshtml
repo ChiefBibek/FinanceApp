@@ -1,61 +1,62 @@
 ﻿@model IEnumerable<FinanceApp.Models.Expense>
 
-	<h2>My Expenses</h2>
-	<div class="container">
-	<table class="table table-bordered">
-		<thead class="table-light">
-			<tr>
-				<th>Description</th>
-				<th>Amount</th>
-				<th>Category</th>
-				<th>Date</th>
-			</tr>
-		</thead>
+<h2>My Expenses</h2>
 
+<div class="container mb-3">
+    <a asp-action="Create" class="btn btn-success">Add Expense</a>
+</div>
 
-		<tbody>
-			@foreach(var item in Model)
-			{
-				<tr>
-					<td>@item.Description</td>
-					<td>@item.Amount.ToString("C")</td>
-					<td>@item.Category</td>
-					<td>@item.Date.ToShortDateString()</td>
-				</tr>
-			}
+<div class="container">
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>Description</th>
+                <th>Amount</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Description</td>
+                    <td>@item.Amount.ToString("C")</td>
+                    <td>@item.Category</td>
+                    <td>@item.Date.ToShortDateString()</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.ID" class="btn btn-sm btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.ID" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
-		</tbody>
-	</table>
-	</div>
 <h2>Expenses Overview</h2>
 
 <div>
-	<canvas style="max-width: 450px; max-height: 450px;" id="myChart"></canvas>
+    <canvas style="max-width: 450px; max-height: 450px;" id="myChart"></canvas>
 </div>
-
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-	const ctx = document.getElementById('myChart');
-	fetch('/Expenses/GetChart')
-	.then(response => response.json())
-	.then(data => {
-	new Chart(ctx, {
-		  type: 'pie',
-		  data: {
-			labels: data.map(d => d.category),
-			datasets: [{
-			 
-			  data: data.map(d => d.total),
-			  
-			}]
-		  },
-
-	});
-	 
-	})
-
-	
+    const ctx = document.getElementById('myChart');
+    fetch('/Expenses/GetChart')
+        .then(response => response.json())
+        .then(data => {
+            new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: data.map(d => d.category),
+                    datasets: [{
+                        data: data.map(d => d.total),
+                    }]
+                },
+            });
+        });
 </script>

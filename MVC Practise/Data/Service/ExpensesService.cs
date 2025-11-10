@@ -3,12 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApp.Data.Service
 {
-    
     public class ExpensesService : IExpensesService
     {
         private readonly FinanceAppContext _context;
         public ExpensesService(FinanceAppContext context) { 
-        _context = context;
+            _context = context;
         }
         public async Task Add(Expense expense)
         {
@@ -32,6 +31,27 @@ namespace FinanceApp.Data.Service
                     Total = g.Sum(e => e.Amount)
                 });
             return data;
+        }
+
+        public async Task<Expense?> GetById(int id)
+        {
+            return await _context.Expenses.FindAsync(id);
+        }
+
+        public async Task Update(Expense expense)
+        {
+            _context.Expenses.Update(expense);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var expense = await _context.Expenses.FindAsync(id);
+            if (expense != null)
+            {
+                _context.Expenses.Remove(expense);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

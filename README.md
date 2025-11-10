@@ -114,7 +114,3 @@ Optional checks:
 
 ---
 
-If you want, I can:
-- Add a CONTRIBUTING.md with a PR template.
-- Add a lightweight seed data provider.
-- Add a single unit-test project and example tests for the Expenses service.

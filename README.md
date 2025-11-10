@@ -1,7 +1,6 @@
 # FinanceApp
 
-Minimal expense tracker using ASP.NET Core (.NET 8) with Razor views.  
-This README covers running the app locally and contribution guidelines.
+Expense tracker using ASP.NET Core (.NET 8) with Razor views.  
 
 ---
 

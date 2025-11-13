@@ -6,7 +6,8 @@ namespace FinanceApp.Data.Service
     public class ExpensesService : IExpensesService
     {
         private readonly FinanceAppContext _context;
-        public ExpensesService(FinanceAppContext context) { 
+        public ExpensesService(FinanceAppContext context)
+        {
             _context = context;
         }
         public async Task Add(Expense expense)
